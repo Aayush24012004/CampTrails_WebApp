@@ -1,0 +1,64 @@
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">New Campground</h1>
+  <div class="col-6 offset-3">
+    <form action="/campgrounds" method="POST">
+      <div class="mb-3" id="title">
+        <label for="title" class="form-label">Enter the title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="campground[title]"
+          id="title"
+        />
+      </div>
+      <div class="mb-3" id="location">
+        <label class="form-label" for="location">Enter the location</label>
+        <input
+          type="text"
+          class="form-control"
+          name="campground[location]"
+          id="location"
+        />
+      </div>
+      <div class="mb-3" id="image">
+        <label class="form-label" for="image">Enter the ImageURL</label>
+        <input
+          type="text"
+          class="form-control"
+          name="campground[image]"
+          id="image"
+        />
+      </div>
+      <div>
+        <label for="price" class="mb-2">Campground Price</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <input
+            name="campground[price]"
+            id="price"
+            type="text"
+            class="form-control"
+            aria-label="Amount (to the nearest dollar)"
+          />
+          <span class="input-group-text">.00</span>
+        </div>
+      </div>
+      <div class="mb-3" id="description">
+        <label class="form-label" for="description"
+          >Describe your campground</label
+        >
+        <textarea
+          type="text"
+          class="form-control"
+          name="campground[description]"
+          id="description"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-primary">Add</button>
+        <a class="btn btn-danger" href="/campgrounds">cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<!-- this is ejs-mate method too make a common boilerplate code for all the routes -->
+<% layout('layouts/boilerplate') %>
+
+<h1 class="">hello campers</h1>
+<ul>
+  <% for(let camps of campgrounds){ %>
+  <div class="card" mb-6>
+    <div class="row">
+      <div class="col-md-4">
+        <img class="img-fluid" src="<%=camps.image%>" alt="" />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <div class="card-title">
+            <h5><%=camps.title%></h5>
+            <p class="card-text"><%=camps.description %></p>
+            <p class="card text">
+              <small class="text-muted"><%=camps.location %></small>
+            </p>
+            <a class="btn btn-primary" href="/campgrounds/<%=camps._id %>"
+              >View <%=camps.title %></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</ul>
+
+<a href="/campgrounds/new">ADD NEW</a>

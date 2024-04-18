@@ -3,7 +3,12 @@
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
+    <form
+      action="/campgrounds/<%= camp._id %>?_method=PUT"
+      method="POST"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3" id="title">
         <label for="title" class="form-label">Enter the title</label>
         <input
@@ -12,7 +17,9 @@
           name="campground[title]"
           id="title"
           value="<%= camp.title %>"
+          required
         />
+        <div class="invalid-feedback">This Field is required</div>
       </div>
       <div class="mb-3" id="location">
         <label class="form-label" for="location">Enter the location</label>
@@ -22,7 +29,9 @@
           name="campground[location]"
           id="location"
           value="<%= camp.location %>"
+          required
         />
+        <div class="invalid-feedback">This Field is required</div>
       </div>
       <div class="mb-3" id="image">
         <label class="form-label" for="image">Enter the ImageURL</label>
@@ -32,7 +41,9 @@
           name="campground[image]"
           id="image"
           value="<%= camp.image %>"
+          required
         />
+        <div class="invalid-feedback">This Field is required</div>
       </div>
       <div>
         <label for="price" class="mb-2">Campground Price</label>
@@ -45,7 +56,9 @@
             class="form-control"
             aria-label="Amount (to the nearest dollar)"
             value="<%= camp.price %>"
+            required
           />
+          <div class="invalid-feedback">This Field is required</div>
           <span class="input-group-text">.00</span>
         </div>
       </div>
@@ -58,9 +71,11 @@
           class="form-control"
           name="campground[description]"
           id="description"
+          required
         >
 <%= camp.description %></textarea
         >
+        <div class="invalid-feedback">This Field is required</div>
       </div>
       <div class="mb-3">
         <button class="btn btn-info">Update</button>

@@ -24,7 +24,12 @@
     </div>
     <div id="Reviews" style="width: 30rem">
       <h2>Leave a Review</h2>
-      <form action="/campgrounds/<%=camp._id%>/reviews" method="post">
+      <form
+        action="/campgrounds/<%=camp._id%>/reviews"
+        method="post"
+        class="validated-form"
+        novalidate
+      >
         <div class="mb-3">
           <label for="Rating" class="form-label">Rating</label>
           <input
@@ -43,9 +48,8 @@
             id="comment"
             cols="30"
             rows="4"
-          >
-Add Comments</textarea
-          >
+            required
+          ></textarea>
         </div>
         <button class="btn btn-success">Submit</button>
       </form>

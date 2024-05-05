@@ -59,7 +59,7 @@ app.get(
 app.get(
   "/campgrounds/:id",
   catchAsync(async (req, res) => {
-    const camp = await campground.findById(req.params.id);
+    const camp = await campground.findById(req.params.id).populate("reviews");
     res.render("campgrounds/show", { camp });
   })
 );
@@ -95,6 +95,15 @@ app.put(
       }
     );
     res.redirect(`/campgrounds/${newCamp._id}`);
+  })
+);
+app.delete(
+  "/campgrounds/:id/reviews/:reviewId",
+  catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }); //this is pull request used here to pull out the specific object id from the array reviews which contains review ids of all the reviews posted on a specific campground.
+    await review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
   })
 );
 app.delete(

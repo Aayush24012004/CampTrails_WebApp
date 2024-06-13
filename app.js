@@ -5,10 +5,14 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const ExpressErrors = require("./utils/ExpressErrors");
+const userRoutes = require("./routes/user");
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/review");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user");
 mongoose
   .connect("mongodb://127.0.0.1:27017/yelp-camp")
   .then(() => {
@@ -40,8 +44,14 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
-// routing starts here!!!
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+// routing starts here!!!
+app.use("/", userRoutes);
 app.use("/campgrounds", campgrounds);
 app.use("/campgrounds/:id/reviews", reviews);
 app.all("*", (req, res, next) => {

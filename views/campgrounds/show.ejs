@@ -11,7 +11,11 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Location: <%=camp.location %></li>
           <li class="list-group-item">Price: $ <%=camp.price %></li>
+          <li class="list-group-item">
+            Submitted By: <%=camp.author.username %>
+          </li>
         </ul>
+        <% if (currentUser && camp.author._id.equals(currentUser._id)) { %>
         <div class="card-body">
           <a href="/campgrounds" class="btn btn-info">All Campgrounds</a>
           <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-info"
@@ -24,11 +28,13 @@
             <button class="btn btn-danger mt-2">Delete</button>
           </form>
         </div>
+        <% } %>
         <div class="card-footer text-body-secondary">2 days ago</div>
       </div>
     </div>
     <div class="col-6">
       <div id="Reviews" style="width: 30rem">
+        <% if(currentUser){ %>
         <h2>Leave a Review</h2>
         <form
           action="/campgrounds/<%=camp._id%>/reviews"
@@ -59,17 +65,23 @@
           </div>
           <button class="btn btn-success">Submit</button>
         </form>
+        <% } %>
         <h3>Reviews</h3>
         <% for(let review of camp.reviews){ %>
         <div class="card mb-2">
           <div class="card-body">
             <h5 class="card-title">Rating: <%=review.rating%></h5>
-            <p class="card-text">Comments:<%=review.comment %></p>
+            <h6 class="card-subtitle mb-2 text-body-secondary">
+              By <%= review.author.username %> : <%=review.comment %>
+            </h6>
             <form
               action="/campgrounds/<%=camp._id%>/reviews/<%= review._id%>?_method=DELETE"
               method="post"
             >
+              <% if (currentUser && review.author._id.equals(currentUser._id)) {
+              %>
               <button class="btn btn-sm btn-danger">Delete</button>
+              <% } %>
             </form>
           </div>
         </div>

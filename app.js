@@ -40,6 +40,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -60,7 +61,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   const { statuscode = 500 } = err;
   if (!err.message) {
-    err.message = "Something wwent wrong";
+    err.message = "Something went wrong";
   }
   res.status(statuscode).render("error", { err });
 });

@@ -38,6 +38,12 @@ const sessionConfig = {
   },
 };
 app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
@@ -45,12 +51,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 // routing starts here!!!
 app.use("/", userRoutes);
 app.use("/campgrounds", campgrounds);

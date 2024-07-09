@@ -1,6 +1,6 @@
 (() => {
-  "use strict";
-
+  bsCustomFileInput.init();
+  ("use strict");
   const forms = document.querySelectorAll(".validated-form");
   Array.from(forms).forEach((form) => {
     form.addEventListener(

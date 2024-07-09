@@ -22,7 +22,20 @@ const seedDB = async () => {
       author: "66689083ea8f4e5a30ae58c7",
       location: `${cities[random1000].city},${cities[random1000].state}`,
       title: `${title(descriptors)} ${title(places)}`,
-      image: "https://source.unsplash.com/collection/483251",
+      geometry: {
+        type: "Point",
+        coordinates: [-88.18275298445232, 44.34096371392996],
+      },
+      images: [
+        {
+          url: "https://res.cloudinary.com/dxl6fwlq2/image/upload/v1719816479/camptrails/fylokf73usdneiwjzkjp.jpg",
+          filename: "camptrails/fylokf73usdneiwjzkjp",
+        },
+        {
+          url: "https://res.cloudinary.com/dxl6fwlq2/image/upload/v1719816481/camptrails/i1qrq6hpuee7yy2oba19.avif",
+          filename: "camptrails/i1qrq6hpuee7yy2oba19",
+        },
+      ],
       description:
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit illo molestiae corrupti, hic iste, commodi laborum nostrum beatae dolore repudiandae possimus est atque odio. Quia odio delectus at cupiditate.",
       price,

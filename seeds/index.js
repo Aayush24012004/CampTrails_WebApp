@@ -15,7 +15,7 @@ mongoose
 const title = (array) => array[Math.floor(Math.random() * array.length)];
 const seedDB = async () => {
   await campground.deleteMany({});
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 300; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 100) + 20;
     const camp = new campground({
@@ -24,7 +24,10 @@ const seedDB = async () => {
       title: `${title(descriptors)} ${title(places)}`,
       geometry: {
         type: "Point",
-        coordinates: [-88.18275298445232, 44.34096371392996],
+        coordinates: [
+          cities[random1000].longitude,
+          cities[random1000].latitude,
+        ],
       },
       images: [
         {

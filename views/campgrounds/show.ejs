@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="col-6">
-      <div id="map" style="width: 400px; height: 300px;"></div>
+      <div id="map"></div>
       <div id="Reviews" style="width: 30rem">
         <% if(currentUser){ %>
         <h2>Leave a Review</h2>
@@ -175,7 +175,7 @@
   maptilersdk.config.apiKey = maptilerApiKey;
   const map = new maptilersdk.Map({
     container: "map",
-    style: maptilersdk.MapStyle.BRIGHT,
+    style: maptilersdk.MapStyle.BRIGHTz,
     center: campground.geometry.coordinates, // starting position [lng, lat]
     zoom: 10, // starting zoom
   });

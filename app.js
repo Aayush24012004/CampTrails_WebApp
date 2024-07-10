@@ -17,6 +17,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
 mongoose
   .connect("mongodb://127.0.0.1:27017/yelp-camp")
   .then(() => {
@@ -31,12 +33,58 @@ app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(mongoSanitize());
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net",
+  "https://cdn.maptiler.com/",
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+  "https://cdn.jsdelivr.net",
+  "https://cdn.maptiler.com/",
+];
+const connectSrcUrls = ["https://api.maptiler.com/"];
+const fontSrcUrls = [
+  "https://fonts.gstatic.com/",
+  "https://cdnjs.cloudflare.com/",
+];
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://res.cloudinary.com/dxl6fwlq2/",
+        "https://images.unsplash.com/",
+        "https://api.maptiler.com/",
+      ],
+      fontSrc: ["'self'", ...fontSrcUrls],
+    },
+  })
+);
+
 const sessionConfig = {
+  name: "sesnum",
   secret: "harharmahadev",
   resave: false,
   saveUninitialized: true,
   cookie: {
-    // httpOnly: true,
+    httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 2,
   },

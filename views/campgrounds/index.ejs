@@ -8,12 +8,14 @@
         <% if (camps.images && camps.images.length > 0) { %>
         <img
           class="img-fluid"
+          crossorigin="anonymous"
           src="<%=camps.images[0].url%>"
           alt="<%=camps.title %>"
         />
         <% } else { %>
         <img
           class="img-fluid"
+          crossorigin="anonymous"
           src="https://res.cloudinary.com/dxl6fwlq2/image/upload/v1720292780/camptrails/lkhmordrazzbukkg8nwt.avif"
           alt="Default Image"
         />

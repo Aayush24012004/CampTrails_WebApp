@@ -13,20 +13,25 @@ const userRoutes = require("./routes/user");
 const campgrounds = require("./routes/campgrounds");
 const reviews = require("./routes/review");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+
+const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/yelp-camp")
+  .connect(dbUrl)
   .then(() => {
-    console.log(" mongoose Connection Open");
+    console.log("Mongoose Connection Open");
   })
   .catch((err) => {
-    console.log(" Mongoose ERROR");
+    console.log("Mongoose ERROR:", err);
   });
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
@@ -34,6 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
+
 const scriptSrcUrls = [
   "https://stackpath.bootstrapcdn.com/",
   "https://kit.fontawesome.com/",
@@ -77,7 +83,20 @@ app.use(
   })
 );
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "harharmahadev",
+  },
+});
+
+store.on("error", (e) => {
+  console.log("Session store error:", e);
+});
+
 const sessionConfig = {
+  store,
   name: "sesnum",
   secret: "harharmahadev",
   resave: false,
@@ -86,9 +105,10 @@ const sessionConfig = {
     httpOnly: true,
     // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 2,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
+
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());

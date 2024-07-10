@@ -100,6 +100,13 @@ module.exports.updateCamp = async (req, res) => {
 };
 module.exports.deleteCamp = async (req, res) => {
   const { id } = req.params;
+  const camp = await campground.findById(id);
+  const images = camp.images;
+  const filenames = images.map((image) => image.filename);
+  console.log(filenames); // prints an array of all the image filenames
+  for (let filename of filenames) {
+    cloudinary.uploader.destroy(filename);
+  }
   await campground.findByIdAndDelete(id);
   req.flash("success", "successfully Deleted Campground!");
   res.redirect("/campgrounds");
